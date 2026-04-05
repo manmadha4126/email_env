@@ -1,0 +1,13 @@
+name: email-triage-env
+version: 1.0
+
+entrypoint: app.env:EmailEnv
+
+observation_model: app.models:Observation
+action_model: app.models:Action
+reward_model: app.models:Reward
+
+tasks:
+  - id: easy
+  - id: medium
+  - id: hard
