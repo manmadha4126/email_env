@@ -12,9 +12,10 @@ class Observation(BaseModel):
     last_action: Optional[str]
 
 class Action(BaseModel):
-    type: str   # "classify", "reply", "delete"
+    type: str  # classify, reply, delete, escalate
     email_id: int
-    content: Optional[str] = None
+    label: str | None = None
+    content: str | None = None
 
 class Reward(BaseModel):
     score: float

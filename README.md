@@ -1,43 +1,101 @@
 ---
-title: Email Triage Environment
+title: Email Triage AI Environment
 emoji: 📧
 colorFrom: blue
-colorTo: green
+colorTo: purple
 sdk: docker
 app_file: app.py
 pinned: false
 ---
 
-# Email Triage OpenEnv Environment
+# 📧 Email Triage OpenEnv Environment
 
-## Description
-This environment simulates real-world email triage tasks where an AI agent must classify, respond, and manage emails efficiently.
+## 🚀 Overview
+This project simulates a **real-world email triage system**, where AI agents must intelligently manage incoming emails.
 
-## Tasks
-1. Easy: Classify emails (low/medium/high)
-2. Medium: Respond to urgent emails
-3. Hard: Delete irrelevant or low-priority emails
+It reflects real industry workflows in:
+- Customer Support
+- DevOps Alert Handling
+- Business Communication Systems
 
-## Action Space
+---
+
+## 🎯 Objective
+Train and evaluate AI agents to:
+- Classify email priority
+- Respond appropriately
+- Delete irrelevant emails
+- Escalate critical issues
+
+---
+
+## 🧠 Tasks
+
+### 🟢 Easy
+Classify emails into:
+- low / medium / high
+
+### 🟡 Medium
+Respond to urgent emails with proper tone
+
+### 🔴 Hard
+Multi-step reasoning:
+- Detect urgency
+- Respond correctly
+- Escalate when required
+
+---
+
+## ⚙️ Action Space
 - classify
 - reply
 - delete
+- escalate
 
-## Observation Space
-- Inbox emails (id, subject, body, priority)
+---
+
+## 👀 Observation Space
+- Email inbox (id, subject, body, priority)
 - Last action taken
 
-## Reward Function
-- Correct classification → +0.7
-- Correct urgent reply → +1.0
-- Correct deletion → +1.0
-- Incorrect action → penalty
+---
 
-## Endpoints
-- /reset → resets environment
-- /state → returns current state
+## 🏆 Reward Design
 
-## Setup
+| Action | Reward |
+|------|--------|
+| Correct classification | +0.5 |
+| Good urgent reply | +1.0 |
+| Correct deletion | +1.0 |
+| Correct escalation | +1.0 |
+| Wrong action | penalty |
+| Extra steps | -0.05 |
+
+👉 Encourages:
+- Accuracy
+- Efficiency
+- Human-like reasoning
+
+---
+
+## 🔌 API Endpoints
+
+- POST `/reset`
+- POST `/step`
+- GET `/state`
+
+---
+
+## 🧪 Example Use Cases
+
+- AI email assistants
+- Customer support automation
+- Incident response systems
+
+---
+
+## ⚡ Setup
+
 ```bash
 docker build -t email-env .
 docker run email-env

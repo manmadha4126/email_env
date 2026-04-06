@@ -20,7 +20,7 @@ for step in range(5):
 
     obs, reward, done, _ = env.step(action)
 
-    print(f"[STEP] step={step} reward={reward.model_dump()}")
+    print(f"[STEP] step={step} reward={reward}")
 
     if done:
         break

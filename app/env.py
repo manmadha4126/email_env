@@ -10,9 +10,11 @@ class EmailEnv:
 
     def reset(self):
         self.emails = [
-            Email(id=1, subject="Meeting", body="Schedule meeting", priority="medium"),
-            Email(id=2, subject="Urgent bug", body="System down!", priority="high"),
-            Email(id=3, subject="Newsletter", body="Weekly news", priority="low"),
+            Email(id=1, subject="Team Meeting", body="Schedule a meeting tomorrow", priority="medium"),
+            Email(id=2, subject="URGENT: Server Down", body="Production system is down. Fix ASAP!", priority="high"),
+            Email(id=3, subject="Weekly Newsletter", body="Check out our weekly updates", priority="low"),
+            Email(id=4, subject="Client Complaint", body="Payment failed and customer is angry", priority="high"),
+            Email(id=5, subject="Promo Offer", body="50% discount on products", priority="low"),
         ]
         self.done = False
         self.steps = 0
