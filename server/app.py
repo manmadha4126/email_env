@@ -1,24 +1,27 @@
 from fastapi import FastAPI
 from app.env import EmailEnv
+from app.models import Action
 
 app = FastAPI()
 env = EmailEnv()
 
 @app.get("/")
 def root():
-    return {"message": "Email Env Running"}
+    return {"status": "Email Triage Environment Running"}
 
-@app.get("/")
-def home():
-    return {"message": "Email Triage Environment Running"}
-
-@app.get("/")
-def home():
-    return {"status": "running"}
-
-@app.get("/reset")
+@app.post("/reset")
 def reset():
     return env.reset()
+
+@app.post("/step")
+def step(action: Action):
+    obs, reward, done, info = env.step(action)
+    return {
+        "observation": obs,
+        "reward": reward,
+        "done": done,
+        "info": info
+    }
 
 @app.get("/state")
 def state():
