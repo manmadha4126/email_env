@@ -1,5 +1,15 @@
-TASKS = [
-    {"id": "easy", "goal": "Delete all low priority emails"},
-    {"id": "medium", "goal": "Classify all emails correctly"},
-    {"id": "hard", "goal": "Respond only to high priority emails"}
-]
+def get_tasks():
+    return [
+        {
+            "id": "easy",
+            "description": "Classify email priority correctly"
+        },
+        {
+            "id": "medium",
+            "description": "Reply appropriately to urgent emails"
+        },
+        {
+            "id": "hard",
+            "description": "Multi-step: classify + respond + escalate"
+        }
+    ]

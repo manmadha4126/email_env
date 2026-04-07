@@ -8,7 +8,7 @@ def compute_reward(action: Action, emails: list[Email]):
     target_email = next((e for e in emails if e.id == action.email_id), None)
 
     if not target_email:
-        return {"score": 0.0, "reason": "Invalid email ID"}
+        return {"score": 0.01, "reason": "Invalid email ID"}
 
     # ------------------------
     # CLASSIFY
@@ -50,7 +50,7 @@ def compute_reward(action: Action, emails: list[Email]):
             reason = "Deleted important email"
 
     # ------------------------
-    # ESCALATE (ADVANCED)
+    # ESCALATE
     # ------------------------
     elif action.type == "escalate":
         if target_email.priority == "high":
@@ -68,14 +68,17 @@ def compute_reward(action: Action, emails: list[Email]):
         reason = "Invalid action type"
 
     # ------------------------
-    # STEP PENALTY (efficiency)
+    # STEP PENALTY
     # ------------------------
     score -= 0.05
 
     # ------------------------
-    # CLAMP SCORE (0 → 1)
+    # FINAL CLAMP (STRICT RANGE)
     # ------------------------
-    score = max(0.0, min(1.0, score))
+    if score <= 0.0:
+        score = 0.01
+    elif score >= 1.0:
+        score = 0.99
 
     return {
         "score": score,

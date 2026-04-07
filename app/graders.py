@@ -1,10 +1,13 @@
-def grade_easy(state):
-    deleted_low = True
-    for e in state["emails"]:
-        if e["priority"] == "low":
-            deleted_low = False
-    return 1.0 if deleted_low else 0.5
+def grade(task_id, reward):
+    score = reward.get("score", 0.5)
 
+    # ensure strict range
+    if score <= 0.0:
+        score = 0.01
+    elif score >= 1.0:
+        score = 0.99
+
+    return score
 
 def grade_medium(state):
     return 0.8  # simplified
