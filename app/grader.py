@@ -22,16 +22,15 @@ def get_grader(task_id):
 
 
 def grade(task_id, reward=None, state=None):
-    if reward is not None:
+    if reward:
         score = reward.get("score", 0.5)
     else:
-        grader = get_grader(task_id)
-        score = grader(state)
+        score = get_grader(task_id)(state)
 
-    # 🔥 STRICT RANGE FIX
+    # 🔥 STRICT RANGE AGAIN (DOUBLE SAFETY)
     if score <= 0.0:
         score = 0.05
     elif score >= 1.0:
         score = 0.95
 
-    return score
+    return round(score, 3)
