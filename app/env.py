@@ -1,6 +1,7 @@
 import random
-from app.models import Observation, Action, Reward, Email
+from app.models import Observation, Action, Email
 from app.reward import compute_reward
+from app.tasks import get_tasks
 
 class EmailEnv:
     def __init__(self):
@@ -16,6 +17,7 @@ class EmailEnv:
             Email(id=4, subject="Client Complaint", body="Payment failed and customer is angry", priority="high"),
             Email(id=5, subject="Promo Offer", body="50% discount on products", priority="low"),
         ]
+
         self.done = False
         self.steps = 0
 
@@ -26,15 +28,27 @@ class EmailEnv:
 
         reward = compute_reward(action, self.emails)
 
-        if self.steps > 5:
+        # episode ends after 5 steps
+        if self.steps >= 5:
             self.done = True
 
         obs = Observation(inbox=self.emails, last_action=action.type)
 
-        return obs, reward, self.done, {}
+        # IMPORTANT: include task info
+        task_type = "easy"
+        if action.type == "reply":
+            task_type = "medium"
+        elif action.type in ["escalate", "delete"]:
+            task_type = "hard"
+
+        return obs, reward, self.done, {"task": task_type}
 
     def state(self):
         return {
             "emails": [e.dict() for e in self.emails],
             "steps": self.steps
         }
+
+    # 🔥 CRITICAL: expose tasks to validator
+    def tasks(self):
+        return get_tasks()

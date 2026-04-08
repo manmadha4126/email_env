@@ -1,15 +1,20 @@
+from app.grader import get_grader
+
 def get_tasks():
     return [
         {
             "id": "easy",
-            "description": "Classify email priority correctly"
+            "description": "Classify emails",
+            "grader": get_grader("easy")
         },
         {
             "id": "medium",
-            "description": "Reply appropriately to urgent emails"
+            "description": "Reply to urgent emails",
+            "grader": get_grader("medium")
         },
         {
             "id": "hard",
-            "description": "Multi-step: classify + respond + escalate"
+            "description": "Full triage workflow",
+            "grader": get_grader("hard")
         }
     ]
