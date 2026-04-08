@@ -1,13 +1,14 @@
 from app.models import Action, Email
 
+
 def compute_reward(action: Action, emails: list[Email]):
-    score = 0.5  # start neutral
+    score = 0.5  # neutral starting point
     reason = ""
 
     target_email = next((e for e in emails if e.id == action.email_id), None)
 
     if not target_email:
-        return {"score": 0.1, "reason": "Invalid email ID"}
+        return {"score": 0.1, "reason": "Invalid email"}
 
     if action.type == "classify":
         if action.label == target_email.priority:
@@ -51,10 +52,10 @@ def compute_reward(action: Action, emails: list[Email]):
         score -= 0.3
         reason = "Invalid action"
 
-    # Step penalty
+    # efficiency penalty
     score -= 0.05
 
-    # STRICT RANGE FIX (VERY IMPORTANT)
+    # 🔥 STRICT RANGE (MANDATORY)
     if score <= 0.0:
         score = 0.05
     elif score >= 1.0:
