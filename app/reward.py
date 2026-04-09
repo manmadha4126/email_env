@@ -11,35 +11,54 @@ def compute_reward(action: Action, emails: list[Email]):
         return {"score": 0.1, "reason": "Invalid email"}
 
     if action.type == "classify":
-        score += 0.2 if action.label == target_email.priority else -0.2
-        reason = "Classification"
+        if action.label == target_email.priority:
+            score += 0.2
+            reason = "Correct classification"
+        else:
+            score -= 0.2
+            reason = "Wrong classification"
 
     elif action.type == "reply":
         content = (action.content or "").lower()
+
         if target_email.priority == "high":
-            score += 0.25 if ("sorry" in content or "fix" in content) else 0.1
+            if "sorry" in content or "fix" in content:
+                score += 0.25
+                reason = "Good urgent reply"
+            else:
+                score += 0.1
+                reason = "Weak reply"
         else:
             score -= 0.2
-        reason = "Reply"
+            reason = "Unnecessary reply"
 
     elif action.type == "delete":
-        score += 0.25 if target_email.priority == "low" else -0.25
-        reason = "Delete"
+        if target_email.priority == "low":
+            score += 0.25
+            reason = "Correct delete"
+        else:
+            score -= 0.25
+            reason = "Wrong delete"
 
     elif action.type == "escalate":
-        score += 0.25 if target_email.priority == "high" else -0.2
-        reason = "Escalate"
+        if target_email.priority == "high":
+            score += 0.25
+            reason = "Correct escalation"
+        else:
+            score -= 0.2
+            reason = "Unnecessary escalation"
 
     else:
         score -= 0.2
-        reason = "Invalid"
+        reason = "Invalid action"
 
+    # step penalty
     score -= 0.05
 
-    # 🔥 STRICT RANGE (FINAL)
-    if score <= 0.0:
+    # 🔥 STRICT RANGE GUARANTEE
+    if score <= 0:
         score = 0.05
-    elif score >= 1.0:
+    if score >= 1:
         score = 0.95
 
-    return {"score": float(round(score, 3)), "reason": reason}
+    return {"score": round(score, 3), "reason": reason}

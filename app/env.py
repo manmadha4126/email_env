@@ -31,7 +31,7 @@ class EmailEnv:
 
         obs = Observation(inbox=self.emails, last_action=action.type)
 
-        # 🔥 TASK ID (IMPORTANT FOR PHASE 2)
+        # 🔥 TASK MAPPING (CRITICAL)
         if action.type == "classify":
             task_id = "easy"
         elif action.type == "reply":
