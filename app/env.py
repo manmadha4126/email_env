@@ -24,23 +24,24 @@ class EmailEnv:
         return Observation(inbox=self.emails, last_action=None)
 
     def step(self, action: Action):
-        self.steps += 1
+    self.steps += 1
 
-        reward = compute_reward(action, self.emails)
+    reward = compute_reward(action, self.emails)
 
-        if self.steps >= 5:
-            self.done = True
+    if self.steps >= 5:
+        self.done = True
 
-        obs = Observation(inbox=self.emails, last_action=action.type)
+    obs = Observation(inbox=self.emails, last_action=action.type)
 
-        # 🔥 TASK MAPPING (IMPORTANT)
-        task = "easy"
-        if action.type == "reply":
-            task = "medium"
-        elif action.type in ["escalate", "delete"]:
-            task = "hard"
+    # 🔥 TASK IDENTIFICATION (CRITICAL)
+    if action.type == "classify":
+        task_id = "easy"
+    elif action.type == "reply":
+        task_id = "medium"
+    else:
+        task_id = "hard"
 
-        return obs, reward, self.done, {"task": task}
+    return obs, reward, self.done, {"task_id": task_id}
 
     def state(self):
         return {

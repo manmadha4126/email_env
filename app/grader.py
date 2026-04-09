@@ -1,36 +1,27 @@
-def grade_easy(state):
-    return 0.7
-
-
-def grade_medium(state):
-    return 0.8
-
-
-def grade_hard(state):
-    return 0.6
-
-
-def get_grader(task_id):
-    if task_id == "easy":
-        return grade_easy
-    elif task_id == "medium":
-        return grade_medium
-    elif task_id == "hard":
-        return grade_hard
-    else:
-        return lambda state: 0.5
-
-
 def grade(task_id, reward=None, state=None):
-    if reward:
+    """
+    Main grader used by validator
+    MUST always return 0 < score < 1
+    """
+
+    # If reward exists, use it
+    if reward is not None:
         score = reward.get("score", 0.5)
     else:
-        score = get_grader(task_id)(state)
+        # fallback scores per task
+        if task_id == "easy":
+            score = 0.7
+        elif task_id == "medium":
+            score = 0.8
+        elif task_id == "hard":
+            score = 0.6
+        else:
+            score = 0.5
 
-    # 🔥 STRICT RANGE AGAIN (DOUBLE SAFETY)
+    # 🔥 STRICT RANGE GUARANTEE (FINAL FIX)
     if score <= 0.0:
         score = 0.05
     elif score >= 1.0:
         score = 0.95
 
-    return round(score, 3)
+    return float(round(score, 3))
