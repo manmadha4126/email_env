@@ -1,15 +1,6 @@
 def get_tasks():
     return [
-        {
-            "id": "easy",
-            "description": "Classify email priority"
-        },
-        {
-            "id": "medium",
-            "description": "Reply to urgent emails"
-        },
-        {
-            "id": "hard",
-            "description": "Full triage workflow"
-        }
+        {"id": "easy", "description": "Classify"},
+        {"id": "medium", "description": "Reply"},
+        {"id": "hard", "description": "Triage"}
     ]
