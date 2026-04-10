@@ -10,7 +10,7 @@ def root():
     return {"status": "running"}
 
 
-# 🔥 MUST BE POST (VERY IMPORTANT)
+# MUST BE POST (VERY IMPORTANT)
 @app.post("/reset")
 def reset():
     obs = env.reset()
