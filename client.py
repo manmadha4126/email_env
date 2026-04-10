@@ -1,6 +1,7 @@
 from app.env import EmailEnv
 from app.models import Action
 
+
 class Client:
     def __init__(self):
         self.env = EmailEnv()
